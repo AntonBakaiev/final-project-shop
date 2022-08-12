@@ -22,6 +22,34 @@ code {
   margin: 50px auto;
 }
 
+.cartEmpty {
+  text-align: center;
+
+  p {
+    width: 280px;
+    line-height: 24px;
+  }
+
+  .greenButton {
+    width: 245px;
+    margin-top: 20px;
+
+    &:hover {
+      img {
+        transform: rotate(180deg) translateX(3px);
+      }
+    }
+
+    img {
+      position: relative;
+      top: 1px;
+      transform: rotate(180deg);
+      margin-right: 15px;
+      transition: transform 0.15s ease-in-out;
+    }
+  }
+}
+
 header {
   border-bottom: 1px solid #eaeaea;
     h3, 
@@ -36,59 +64,19 @@ header {
   }
 }
 
-.card {
-  border: 1px solid #f3f3f3;
-  padding: 30px;
-  width: 220px;
-  border-radius: 40px;
-  margin-right: 30px;
-  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
-
-  &:hover {
-    box-shadow: 0px 20px 30px rgba(114, 113, 113, 0.09);
-    transform: translateY(-5px);
-  }
-
-  .favorite {
-    position: absolute;
-    cursor: pointer;
-  }
-
-  img {
-    border-radius: 10px;
-
-  }
-
-  span {
-    font-size: 13px;
-    opacity: 0.5;
-    text-transform: uppercase;
-  }
-
-  b {
-   font-size: 13px;
-  }
-
-  h5 {
-    font-weight: 400;
-    font-size: 14px;
-  }
-}
-
-.button {
-  background: #FFFFFF;
-  border: 1px solid #F2F2F2;
-  box-sizing: border-box;
-  border-radius: 8px;
-  height: 32px;
-  width: 32px;
-  cursor: pointer;
-}
-
 .search-block {
   border: 1px solid #f3f3f3;
   border-radius: 10px;
   padding: 0 15px;
+  position: relative;
+
+  .clear {
+    position: absolute;
+    right: 15px;
+    width: 14px;
+    height: 14px;
+    top: 16px;
+  }
 
   input {
     border: 0;
