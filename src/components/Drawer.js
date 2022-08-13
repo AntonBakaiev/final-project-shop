@@ -6,9 +6,10 @@ function Drawer({onClose, onRemove,items = [] }) {
             <img onClick={onClose} className="removeBtn cu-p" src="/img/remove.svg" alt="Close" /> </h2>
           
           {
-            items.length > 0 ? <div >
+            items.length > 0 ? <div className="d-flex flex-column flex">
               <div className="items flex">
-            {items.map((obj) =>( <div className="cartItem d-flex align-center mb-20">
+                {items.map((obj) => (
+                  <div key={obj.id} className="cartItem d-flex align-center mb-20">
               <img className="mr-20" width={70} height={70} src={obj.imageURL} alt="" />
               <div className="mr=20 flex">
                 <p className="mb-5">{obj.title}</p>
