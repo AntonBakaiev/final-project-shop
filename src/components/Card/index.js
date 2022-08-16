@@ -45,9 +45,9 @@ function Card({
 
                     :
                     <>
-                        <div className={styles.favorite} onClick={onClickFavorite} >
+                        { onFavorite && <div className={styles.favorite} onClick={onClickFavorite} >
                             <img src={isFavorite ? '/img/heart-checked.svg' : '/img/heart-unchecked.png'} alt="heart" />
-                        </div>
+                        </div>}
                         <img width={155} height={120} src={imageURL} alt="Product" />
                         <h5>{title}</h5>
                         <div className="d-flex justify-between align-center">
@@ -55,10 +55,10 @@ function Card({
                                 <span>Ціна:</span>
                                 <b> {price} грн.</b>
                             </div>
-                            <img className={styles.plus}
+                            {onPlus && <img className={styles.plus}
                                 onClick={onClickPlus}
                                 src={isItemAdded(id) ? '/img/btn-checked.svg' : '/img/btn-unchecked.svg'}
-                                alt="Plus" />
+                                alt="Plus" />}
                         </div>
                     </>
             }
