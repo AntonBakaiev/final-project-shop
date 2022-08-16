@@ -47,26 +47,37 @@ function App() {
   }, []);
 
 
-  const onAddToCart = (obj) => {
+   const onAddToCart = async (obj) => {
     try {
-     if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
-        axios.delete(`https://62f4259b3e1100d6f637a75f.mockapi.io/BAI/cart/${obj.id}`)
-        setCartItems(prev => prev.filter(item => item.id !== obj.id))
-      } else { 
-         axios.post('https://62f4259b3e1100d6f637a75f.mockapi.io/BAI/cart', obj)
-    setCartItems((prev) => [...prev, obj]);
-      };
-    } catch (error) {
-      alert('Помилка при додаванні у кошик')
-      console.error(error)
+      const findItem = cartItems.find((item) => Number(item.parentId) === Number(obj.id));
+      if (findItem) {
+        await axios.delete(`https://62f4259b3e1100d6f637a75f.mockapi.io/BAI/cart/${findItem.id}`);
+        setCartItems((prev) => prev.filter((item) => Number(item.parentId) !== Number(obj.id)));
+      } else {
+        setCartItems((prev) => [...prev, obj]);
+        const { data } = await axios.post('https://62f4259b3e1100d6f637a75f.mockapi.io/BAI/cart', obj);
+        setCartItems((prev) =>
+          prev.map((item) => {
+            if (item.parentId === data.parentId) {
+              return {
+                ...item,
+                id: data.id,
+              };
+            }
+            return item;
+          }),
+        );
       }
-    
-  }
+    } catch (error) {
+      alert('Помилка пр додавванні в кошик');
+      console.error(error);
+    }
+  };
 
   const onRemoveItem = (id) => { 
     try {
     axios.delete(`https://62f4259b3e1100d6f637a75f.mockapi.io/BAI/cart/${id}`)
-    setCartItems((prev) => prev.filter(cart => cart.id !== id));
+    setCartItems((prev) => prev.filter((item) => Number(item.id) !== Number(id)));
 
     } catch (error) {
       alert('Помилка при видаленні з кошика')
@@ -93,7 +104,7 @@ function App() {
     setSearchValue(event.target.value);
   }
 
-  const isItemAdded = (id) => { return cartItems.some((obj) => Number(obj.id) === Number(id))
+  const isItemAdded = (id) => { return cartItems.some((obj) => Number(obj.parentId) === Number(id))
   }
 
   return (
@@ -109,7 +120,12 @@ function App() {
     }}>
     <div className="wrapper clear ">
       
-      {cartOpened && <Drawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem} />}
+    <Drawer
+      items={cartItems}
+      onClose={() => setCartOpened(false)}
+      onRemove={onRemoveItem}
+      opened={cartOpened}     
+    />
     
     <Header onClickCart={() => setCartOpened(true)} /> 
    
